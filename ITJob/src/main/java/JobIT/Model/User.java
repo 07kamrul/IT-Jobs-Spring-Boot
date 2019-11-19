@@ -30,12 +30,8 @@ public class User {
 	private String email;
 
 	@NotNull(message = "Enter your First Name")
-	@Column(name = "firstname")
-	private String firstname;
-
-	@NotNull(message = "Enter your Last Name")
-	@Column(name = "lastname")
-	private String lastname;
+	@Column(name = "userName")
+	private String userName;
 
 	@NotNull(message = "Enter your password")
 	@Column(name = "password")
@@ -45,12 +41,24 @@ public class User {
 	@Column(name = "question_name")
 	private String question_name;
 
+	@NotNull(message = "Enter Role is compulsory")
+	@Column(name = "roleName")
+	private String roleName;
+
 	@NotNull(message = "Enter Security Question Answer")
 	@Column(name = "question_answer")
 	private String question_answer;
 
 	@Column(name = "isEnabled")
 	private boolean isEnabled;
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
 
 	private Date created_date;
 	private Date update_date;
@@ -74,10 +82,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getFirstname() {
-		return firstname;
 	}
 
 	public String getQuestion_name() {
@@ -128,16 +132,12 @@ public class User {
 		this.delete_date = delete_date;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public String getUserName() {
+		return userName;
 	}
 
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
