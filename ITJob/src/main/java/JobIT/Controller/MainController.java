@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,7 +60,7 @@ public class MainController {
 	private QuestionService questionService;
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-	public ModelAndView login(Model model) {
+	public ModelAndView home(Model model) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("index");
 
@@ -72,42 +73,16 @@ public class MainController {
 		User user = new User();
 		List<Question> questions = questionService.GetAllQues();
 		model.addAttribute("questions", questions);
+		model.addAttribute("user", user);
 		modelAndView.addObject("user", user);
 		modelAndView.setViewName("register");
 
 		return modelAndView;
 	}
 
-	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
-	public ModelAndView login() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("login");
-
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/userhome", method = RequestMethod.GET)
-	public ModelAndView home() {
-		ModelAndView modelAndView = new ModelAndView();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findByEmail(auth.getName());
-		modelAndView.addObject("userName", user.getUserName());
-		modelAndView.setViewName("UserHome");
-
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public ModelAndView adminHome() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("AdminHome");
-
-		return modelAndView;
-
-	}
-
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ModelAndView registerUser(@Valid User user, BindingResult bindingResult, ModelMap modelMap) {
+	public ModelAndView registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
+			ModelMap modelMap) {
 		user.setCreated_date(timestamp);
 		user.setUpdate_date(timestamp);
 
@@ -147,6 +122,46 @@ public class MainController {
 			modelAndView.setViewName("successfulRegistration");
 		}
 		return modelAndView;
+	}
+
+//	@RequestMapping(value = "/login", method = RequestMethod.GET)
+//	public ModelAndView register(Model model) {
+//		ModelAndView modelAndView = new ModelAndView();
+//		User user = new User();
+//		List<Question> questions = questionService.GetAllQues();
+//		model.addAttribute("questions", questions);
+//		modelAndView.addObject("user", user);
+//		modelAndView.setViewName("register");
+//
+//		return modelAndView;
+//	}
+
+	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
+	public ModelAndView login() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("login");
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/userhome", method = RequestMethod.GET)
+	public ModelAndView userHome() {
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findByEmail(auth.getName());
+		modelAndView.addObject("userName", user.getUserName());
+		modelAndView.setViewName("UserHome");
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public ModelAndView adminHome() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("AdminHome");
+
+		return modelAndView;
+
 	}
 
 	@RequestMapping(value = "/confirm-account", method = { RequestMethod.GET, RequestMethod.POST })
