@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.annotation.JacksonInject.Value;
-
 import JobIT.Model.ConfirmationToken;
 import JobIT.Model.Question;
 import JobIT.Model.User;
